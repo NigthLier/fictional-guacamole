@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "244206194509",
+    "firebase_url": "https://todoapp-2d686-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "todoapp-2d686",
+    "storage_bucket": "todoapp-2d686.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244206194509:android:1c7e6d967786d8c1467104",
+        "android_client_info": {
+          "package_name": "com.example.todoapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfmwnknw17_p5cxUHOOYVofIDnYPfocvk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
