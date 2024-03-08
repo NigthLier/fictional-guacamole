@@ -14,16 +14,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.todoapp.MainApplication
+import com.example.todoapp.data.repository.TodoRepository
 import com.example.todoapp.ui.viewmodel.AuthViewModel
+import com.example.todoapp.ui.viewmodel.TodoViewModel
+import com.example.todoapp.ui.viewmodel.TodoViewModelFactory
 
 @Composable
-fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()) {
+fun LoginScreen(navController: NavController, authViewModel : AuthViewModel = viewModel()) {
+    val app = LocalContext.current.applicationContext as MainApplication
+    val todoViewModel: TodoViewModel =
+        viewModel(factory = TodoViewModelFactory(TodoRepository(app.database.todoDao())))
+
+    if(authViewModel.getUser() != null) {
+        todoViewModel.loadTodos()
+        navController.navigate("todoList")
+    }
+
     val context = LocalContext.current
     val authState by authViewModel.authStateFlow.collectAsState(initial = null)
 
     LaunchedEffect(authState) {
         when (authState) {
-            is AuthViewModel.AuthState.SUCCESS -> navController.navigate("todoList")
+            is AuthViewModel.AuthState.SUCCESS -> {
+                todoViewModel.loadTodos()
+                navController.navigate("todoList")
+            }
             is AuthViewModel.AuthState.ERROR -> {
                 val errorMessage = (authState as AuthViewModel.AuthState.ERROR).message
                 Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()

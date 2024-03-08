@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.todoapp.ui.screens.*
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +18,7 @@ class MainActivity : ComponentActivity() {
             MaterialTheme {
                 Surface {
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "todoList") {
+                    NavHost(navController = navController, startDestination = "login") {
                         composable("login") { LoginScreen(navController) }
                         composable("signup") { SignUpScreen(navController) }
                         composable("todoList") { TodoListScreen(navController) }

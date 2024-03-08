@@ -7,7 +7,8 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.model.TodoItem
 import com.example.todoapp.data.repository.TodoRepository
-import kotlinx.coroutines.flow.Flow
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
 
 class TodoViewModel(private val repository: TodoRepository) : ViewModel() {
@@ -41,6 +42,24 @@ class TodoViewModel(private val repository: TodoRepository) : ViewModel() {
             addTodo(todoItem)
         } else {
             updateTodo(todoItem)
+        }
+    }
+
+    fun uploadTodos() {
+        viewModelScope.launch {
+            repository.uploadAllTodos()
+        }
+    }
+
+    fun loadTodos() {
+        viewModelScope.launch {
+            repository.loadAllTodos()
+        }
+    }
+
+    fun deleteTodos() {
+        viewModelScope.launch {
+            repository.deleteAllTodos()
         }
     }
 }

@@ -1,19 +1,28 @@
 package com.example.todoapp.ui.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.navigation.NavController
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.todoapp.MainApplication
 import com.example.todoapp.data.model.TodoItem
 import com.example.todoapp.data.repository.TodoRepository
@@ -23,7 +32,8 @@ import com.example.todoapp.ui.viewmodel.TodoViewModelFactory
 @Composable
 fun TodoDetailScreen(navController: NavController, todoItemId: Int) {
     val app = LocalContext.current.applicationContext as MainApplication
-    val todoViewModel: TodoViewModel = viewModel(factory = TodoViewModelFactory(TodoRepository(app.database.todoDao())))
+    val todoViewModel: TodoViewModel =
+        viewModel(factory = TodoViewModelFactory(TodoRepository(app.database.todoDao())))
 
     val todo by todoViewModel.getTodoById(todoItemId).observeAsState(initial = null)
     var title by remember { mutableStateOf(todo?.title ?: "") }
@@ -34,12 +44,16 @@ fun TodoDetailScreen(navController: NavController, todoItemId: Int) {
         description = todo?.description ?: ""
     }
 
-    Column( modifier = Modifier
-        .padding(16.dp)
-        .fillMaxSize(),
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(text = if (todo == null) "Add Todo" else "Edit Todo", style = MaterialTheme.typography.headlineMedium)
+        Text(
+            text = if (todo == null) "Add Todo" else "Edit Todo",
+            style = MaterialTheme.typography.headlineMedium
+        )
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             value = title,
@@ -60,7 +74,8 @@ fun TodoDetailScreen(navController: NavController, todoItemId: Int) {
                     id = todo?.id ?: 0,
                     title = title,
                     description = description,
-                    isCompleted = todo?.isCompleted ?: false)
+                    isCompleted = todo?.isCompleted ?: false
+                )
                 todoViewModel.saveTodo(newItem)
                 navController.popBackStack()
             },

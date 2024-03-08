@@ -10,4 +10,7 @@ data class TodoItem(
     val title: String,
     val description: String?,
     val isCompleted: Boolean = false
-)
+) {
+    constructor() : this(0, "", "", false) {
+    }
+}
